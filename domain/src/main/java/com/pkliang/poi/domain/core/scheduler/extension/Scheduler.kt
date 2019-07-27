@@ -6,7 +6,6 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 
-
 fun <T> Observable<T>.runOnIo(scheduler: Scheduler): Observable<T> =
     subscribeOn(scheduler.io()).observeOn(scheduler.ui())
 
