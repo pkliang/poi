@@ -4,6 +4,7 @@ test-pattern: # Configure exclusions for test sources
   active: true
   patterns: # Test file regexes
   - '.*Test.kt'
+  - '.*Should.kt'
   - '.*Spec.kt'
   - '.*Spek.kt'
   exclude-rule-sets:

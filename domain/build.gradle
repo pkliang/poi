@@ -1,0 +1,23 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+    id 'jacoco'
+}
+apply from: '../quality-gate/detekt/detekt.gradle'
+
+jacoco {
+    toolVersion = "0.8.2"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava"
+
+    testImplementation project(":testutils")
+}
+
+check.dependsOn "jacocoTestReport"
+
+sourceCompatibility = "8"
+targetCompatibility = "8"
