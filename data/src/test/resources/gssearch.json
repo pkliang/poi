@@ -1,0 +1,16 @@
+{
+  "batchcomplete": "",
+  "query": {
+    "geosearch": [
+      {
+        "pageid": 18806750,
+        "ns": 0,
+        "title": "T\u00f6\u00f6l\u00f6 Sports Hall",
+        "lat": 60.183333333333,
+        "lon": 24.925555555556,
+        "dist": 166,
+        "primary": ""
+      }
+    ]
+  }
+}

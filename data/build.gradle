@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlinx-serialization'
+}
+apply from: '../quality-gate/detekt/detekt.gradle'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":domain")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "androidx.appcompat:appcompat:$x_appcompat"
+    implementation "androidx.core:core-ktx:$ktx"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$serializationConverter"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.0'
+
+    testImplementation project(":testutils")
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+}

@@ -1,0 +1,59 @@
+{
+  "batchcomplete": "",
+  "query": {
+    "pages": {
+      "18806750": {
+        "pageid": 18806750,
+        "ns": 0,
+        "title": "Töölö Sports Hall",
+        "contentmodel": "wikitext",
+        "pagelanguage": "en",
+        "pagelanguagehtmlcode": "en",
+        "pagelanguagedir": "ltr",
+        "touched": "2019-07-26T16:27:03Z",
+        "lastrevid": 907986205,
+        "length": 4918,
+        "description": "Sports venue in Helsinki, Finland",
+        "descriptionsource": "local",
+        "images": [
+          {
+            "ns": 6,
+            "title": "File:Basketball pictogram.svg"
+          },
+          {
+            "ns": 6,
+            "title": "File:Boxing pictogram.svg"
+          },
+          {
+            "ns": 6,
+            "title": "File:Commons-logo.svg"
+          },
+          {
+            "ns": 6,
+            "title": "File:Gymnastics (artistic) pictogram.svg"
+          },
+          {
+            "ns": 6,
+            "title": "File:Töölön Kisahalli.jpg"
+          },
+          {
+            "ns": 6,
+            "title": "File:Weightlifting pictogram.svg"
+          },
+          {
+            "ns": 6,
+            "title": "File:Wrestling pictogram.svg"
+          }
+        ],
+        "coordinates": [
+          {
+            "lat": 60.18333333,
+            "lon": 24.92555556,
+            "primary": "",
+            "globe": "earth"
+          }
+        ]
+      }
+    }
+  }
+}

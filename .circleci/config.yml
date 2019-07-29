@@ -27,6 +27,9 @@ jobs:
       - store_artifacts:
           path: domain/build/reports
           destination: reports/domain
+      - store_artifacts:
+          path: data/build/reports
+          destination: reports/data
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: app/build/test-results
       - store_test_results:

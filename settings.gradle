@@ -1,2 +1,2 @@
-include ':app', ':domain', ':testutils'
+include ':app', ':domain', ':testutils', ':data'
 rootProject.name='POI'

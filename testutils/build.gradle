@@ -8,10 +8,15 @@ dependencies {
     implementation project(':domain')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "io.reactivex.rxjava2:rxjava:$rxjava"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$serializationConverter"
 
     api "junit:junit:$junit"
     api "org.hamcrest:hamcrest-library:$hamcrest"
     api "io.mockk:mockk:$mockk"
+    api "com.squareup.okhttp3:mockwebserver:$mockWebServer"
 }
 
 sourceCompatibility = "8"

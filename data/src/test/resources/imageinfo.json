@@ -1,0 +1,35 @@
+{
+  "batchcomplete": "",
+  "query": {
+    "pages": {
+      "-1": {
+        "ns": 6,
+        "title": "File:Helsinki.vaakuna.svg",
+        "missing": "",
+        "known": "",
+        "imagerepository": "shared",
+        "imageinfo": [
+          {
+            "url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Helsinki.vaakuna.svg",
+            "descriptionurl": "https://commons.wikimedia.org/wiki/File:Helsinki.vaakuna.svg",
+            "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=603935"
+          }
+        ]
+      },
+      "-2": {
+        "ns": 6,
+        "title": "File:KristusKyrkanHelsinki.jpg",
+        "missing": "",
+        "known": "",
+        "imagerepository": "shared",
+        "imageinfo": [
+          {
+            "url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/KristusKyrkanHelsinki.jpg",
+            "descriptionurl": "https://commons.wikimedia.org/wiki/File:KristusKyrkanHelsinki.jpg",
+            "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=3450120"
+          }
+        ]
+      }
+    }
+  }
+}
