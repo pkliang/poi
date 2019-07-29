@@ -19,6 +19,7 @@ class MediaWikiRetrofitServiceShould {
 
     private val geolocation = Geolocation(60.1831906, 24.9285439)
     private val pageId = "18806750"
+    private val titles = "File:Helsinki.vaakuna.svg|File:KristusKyrkanHelsinki.jpg"
 
     @Before
     fun setUp() {
@@ -67,5 +68,27 @@ class MediaWikiRetrofitServiceShould {
 
 
         assertActionApiResponseForPages(actionApiResponse)
+    }
+
+    @Test
+    fun `send getImageInfo request to the correct endpoint`() {
+        mockWebServerRule.givenMockResponse(fileName = "imageinfo.json")
+
+
+        mediaWikiRetrofitService.getImageInfo(titles).test()
+
+
+        mockWebServerRule.assertGetRequestSentTo("/api.php?action=query&prop=imageinfo&iiprop=url&format=json&titles=File%3AHelsinki.vaakuna.svg%7CFile%3AKristusKyrkanHelsinki.jpg")
+    }
+
+    @Test
+    fun `receive parsed ActionApiResponse on the getImageInfo request`() {
+        mockWebServerRule.givenMockResponse(fileName = "imageinfo.json")
+
+
+        val actionApiResponse = mediaWikiRetrofitService.getImageInfo(titles).testFirstValue()
+
+
+        assertImageInfoActionApiResponseForPages(actionApiResponse)
     }
 }

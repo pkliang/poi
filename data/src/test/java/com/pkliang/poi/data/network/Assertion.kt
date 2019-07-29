@@ -43,3 +43,37 @@ fun assertActionApiResponseForPages(actionApiResponse: ActionApiResponse) {
         )
     )
 }
+
+fun assertImageInfoActionApiResponseForPages(actionApiResponse: ImageInfoActionApiResponse) {
+    assertThat(actionApiResponse.query.pages, notNullValue())
+
+    assertThat(
+        actionApiResponse.query.pages?.values?.toList()?.first(), equalTo(
+            ImageInfoPagesApiResponse(
+                title = "File:Helsinki.vaakuna.svg",
+                imageInfoApiResponse = listOf(
+                    ImageInfoApiResponse(
+                        "https://upload.wikimedia.org/wikipedia/commons/c/c4/Helsinki.vaakuna.svg",
+                        "https://commons.wikimedia.org/wiki/File:Helsinki.vaakuna.svg",
+                        "https://commons.wikimedia.org/w/index.php?curid=603935"
+                    )
+                )
+            )
+        )
+    )
+
+    assertThat(
+        actionApiResponse.query.pages?.values?.toList()?.last(), equalTo(
+            ImageInfoPagesApiResponse(
+                title = "File:KristusKyrkanHelsinki.jpg",
+                imageInfoApiResponse = listOf(
+                    ImageInfoApiResponse(
+                        "https://upload.wikimedia.org/wikipedia/commons/a/a3/KristusKyrkanHelsinki.jpg",
+                        "https://commons.wikimedia.org/wiki/File:KristusKyrkanHelsinki.jpg",
+                        "https://commons.wikimedia.org/w/index.php?curid=3450120"
+                    )
+                )
+            )
+        )
+    )
+}

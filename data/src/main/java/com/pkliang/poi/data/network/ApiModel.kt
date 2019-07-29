@@ -23,14 +23,32 @@ data class ArticleDetailApiResponse(
 )
 
 @Serializable
-data class QueryApiResponse(
+data class ImageInfoPagesApiResponse(
+    @SerialName("title") val title: String,
+    @SerialName("imageinfo") val imageInfoApiResponse: List<ImageInfoApiResponse>
+)
+
+@Serializable
+data class ImageInfoApiResponse(
+    @SerialName("url") val url: String,
+    @SerialName("descriptionurl") val descriptionurl: String,
+    @SerialName("descriptionshorturl") val descriptionshorturl: String
+)
+
+@Serializable
+data class QueryApiResponse<P>(
     @SerialName("geosearch") val geosearch: List<ArticleApiResponse>? = null,
-    @SerialName("pages") val pages: Map<Long, ArticleDetailApiResponse>? = null
+    @SerialName("pages") val pages: P? = null
 )
 
 @Serializable
 data class ActionApiResponse(
-    @SerialName("query") val query: QueryApiResponse
+    @SerialName("query") val query: QueryApiResponse<Map<Long, ArticleDetailApiResponse>>
+)
+
+@Serializable
+data class ImageInfoActionApiResponse(
+    @SerialName("query") val query: QueryApiResponse<Map<String, ImageInfoPagesApiResponse>>
 )
 
 @Serializable
