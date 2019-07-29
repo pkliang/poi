@@ -21,9 +21,9 @@ class ArticleRepositoryImplShould {
     private val articleRepository = ArticleRepositoryImpl(mediaWikiRetrofitService)
 
     private val actionApiResponse = ArticleActionApiResponse(
-        QueryApiResponse(listOf(ArticleApiResponse(1, "title", 0.0, 0.0, 0.0)))
+        QueryApiResponse(listOf(ArticleApiResponse(1, "title", 1.0, 0.0, 0.0)))
     )
-    private val geolocation = Geolocation(0.0, 0.0)
+    private val geolocation = Geolocation(1.0, 0.0)
 
     @Before
     fun setup() {
@@ -37,7 +37,7 @@ class ArticleRepositoryImplShould {
         articleRepository.getNearbyArticlesByGeoLocation(geolocation).subscribe()
 
 
-        verify { mediaWikiRetrofitService.getArticlesByGscoord(gscoord = any()) }
+        verify { mediaWikiRetrofitService.getArticlesByGscoord(gscoord = "1.0|0.0") }
         confirmVerified(mediaWikiRetrofitService)
     }
 
