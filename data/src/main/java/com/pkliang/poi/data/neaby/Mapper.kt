@@ -7,8 +7,8 @@ import com.pkliang.poi.domain.nearby.entity.Article
 
 fun Geolocation.toGsCoord(): String = "$lat|$lon"
 
-fun ActionApiResponse.toArticles(): List<Article> =
-    query.list.map {
+fun ActionApiResponse.toArticles(): List<Article>? =
+    query.geosearch?.map {
         it.toArticle()
     }
 
