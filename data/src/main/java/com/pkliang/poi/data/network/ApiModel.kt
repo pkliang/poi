@@ -42,7 +42,7 @@ data class QueryApiResponse<P>(
 )
 
 @Serializable
-data class ActionApiResponse(
+data class ArticleActionApiResponse(
     @SerialName("query") val query: QueryApiResponse<Map<Long, ArticleDetailApiResponse>>
 )
 

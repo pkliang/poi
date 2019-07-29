@@ -1,6 +1,6 @@
 package com.pkliang.poi.data.neaby
 
-import com.pkliang.poi.data.network.ActionApiResponse
+import com.pkliang.poi.data.network.ArticleActionApiResponse
 import com.pkliang.poi.data.network.ArticleApiResponse
 import com.pkliang.poi.data.network.MediaWikiRetrofitService
 import com.pkliang.poi.data.network.QueryApiResponse
@@ -20,7 +20,7 @@ class ArticleRepositoryImplShould {
     private val mediaWikiRetrofitService = mockk<MediaWikiRetrofitService>()
     private val articleRepository = ArticleRepositoryImpl(mediaWikiRetrofitService)
 
-    private val actionApiResponse = ActionApiResponse(
+    private val actionApiResponse = ArticleActionApiResponse(
         QueryApiResponse(listOf(ArticleApiResponse(1, "title", 0.0, 0.0, 0.0)))
     )
     private val geolocation = Geolocation(0.0, 0.0)
@@ -28,7 +28,7 @@ class ArticleRepositoryImplShould {
     @Before
     fun setup() {
         every {
-            mediaWikiRetrofitService.getArticlesByGeoLocation(gscoord = any())
+            mediaWikiRetrofitService.getArticlesByGscoord(gscoord = any())
         } returns Observable.just(actionApiResponse)
     }
 
@@ -37,7 +37,7 @@ class ArticleRepositoryImplShould {
         articleRepository.getNearbyArticlesByGeoLocation(geolocation).subscribe()
 
 
-        verify { mediaWikiRetrofitService.getArticlesByGeoLocation(gscoord = any()) }
+        verify { mediaWikiRetrofitService.getArticlesByGscoord(gscoord = any()) }
         confirmVerified(mediaWikiRetrofitService)
     }
 

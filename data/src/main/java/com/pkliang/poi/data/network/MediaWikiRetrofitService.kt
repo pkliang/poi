@@ -7,17 +7,17 @@ import retrofit2.http.Query
 interface MediaWikiRetrofitService {
 
     @GET("$API?$ACTION_QUERY&$LIST_GEOSEARCH&$FORMAT_JSON")
-    fun getArticlesByGeoLocation(
+    fun getArticlesByGscoord(
         @Query("gsradius") gsradius: Int = 10000,
         @Query("gscoord") gscoord: String,
         @Query("gslimit") gslimit: Int = 50
-    ): Observable<ActionApiResponse>
+    ): Observable<ArticleActionApiResponse>
 
     @GET("$API?$ACTION_QUERY&$PROPS&$FORMAT_JSON")
-    fun getArticleDetails(@Query("pageids") pageids: String): Observable<ActionApiResponse>
+    fun getArticlesByPageIds(@Query("pageids") pageids: String): Observable<ArticleActionApiResponse>
 
     @GET("$API?$ACTION_QUERY&$PROP_IMAGE_INFO&$IIPRPO_URL&$FORMAT_JSON")
-    fun getImageInfo(@Query("titles") titles: String): Observable<ImageInfoActionApiResponse>
+    fun getImageInfoByTitles(@Query("titles") titles: String): Observable<ImageInfoActionApiResponse>
 
     companion object {
         const val API = "api.php"

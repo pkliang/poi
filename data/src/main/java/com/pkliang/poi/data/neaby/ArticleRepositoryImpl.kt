@@ -8,7 +8,7 @@ import io.reactivex.Observable
 
 class ArticleRepositoryImpl(private val mediaWikiRetrofitService: MediaWikiRetrofitService) : ArticleRepository {
     override fun getNearbyArticlesByGeoLocation(geolocation: Geolocation): Observable<List<Article>> =
-        mediaWikiRetrofitService.getArticlesByGeoLocation(
+        mediaWikiRetrofitService.getArticlesByGscoord(
             gscoord = geolocation.toGsCoord()
         ).map { it.toArticles() }
 }

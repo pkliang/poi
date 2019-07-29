@@ -1,13 +1,13 @@
 package com.pkliang.poi.data.neaby
 
-import com.pkliang.poi.data.network.ActionApiResponse
+import com.pkliang.poi.data.network.ArticleActionApiResponse
 import com.pkliang.poi.data.network.ArticleApiResponse
 import com.pkliang.poi.domain.core.entity.Geolocation
 import com.pkliang.poi.domain.nearby.entity.Article
 
 fun Geolocation.toGsCoord(): String = "$lat|$lon"
 
-fun ActionApiResponse.toArticles(): List<Article>? =
+fun ArticleActionApiResponse.toArticles(): List<Article>? =
     query.geosearch?.map {
         it.toArticle()
     }

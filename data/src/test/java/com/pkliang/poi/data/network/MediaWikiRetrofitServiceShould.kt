@@ -27,68 +27,68 @@ class MediaWikiRetrofitServiceShould {
     }
 
     @Test
-    fun `send getArticlesByGeoLocation request to the correct endpoint`() {
+    fun `send getArticlesByGscoord request to the correct endpoint`() {
         mockWebServerRule.givenMockResponse(fileName = "gssearch.json")
 
 
-        mediaWikiRetrofitService.getArticlesByGeoLocation(gscoord = geolocation.toGsCoord()).test()
+        mediaWikiRetrofitService.getArticlesByGscoord(gscoord = geolocation.toGsCoord()).test()
 
 
         mockWebServerRule.assertGetRequestSentTo("/api.php?action=query&list=geosearch&format=json&gsradius=10000&gscoord=60.1831906%7C24.9285439&gslimit=50")
     }
 
     @Test
-    fun `receive parsed ActionApiResponse on the getArticlesByGeoLocation request`() {
+    fun `receive parsed ArticleActionApiResponse on the getArticlesByGscoord request`() {
         mockWebServerRule.givenMockResponse(fileName = "gssearch.json")
 
 
-        val actionApiResponse = mediaWikiRetrofitService.getArticlesByGeoLocation(gscoord = geolocation.toGsCoord()).testFirstValue()
+        val actionApiResponse = mediaWikiRetrofitService.getArticlesByGscoord(gscoord = geolocation.toGsCoord()).testFirstValue()
 
 
-        assertActionApiResponseForGsSearch(actionApiResponse)
+        assertArticleActionApiResponseByGscoord(actionApiResponse)
     }
 
     @Test
-    fun `send getArticleDetails request to the correct endpoint`() {
+    fun `send getArticlesByPageIds request to the correct endpoint`() {
         mockWebServerRule.givenMockResponse(fileName = "pages.json")
 
 
-        mediaWikiRetrofitService.getArticleDetails(pageId).test()
+        mediaWikiRetrofitService.getArticlesByPageIds(pageId).test()
 
 
         mockWebServerRule.assertGetRequestSentTo("/api.php?action=query&prop=info|description|images|coordinates&format=json&pageids=$pageId")
     }
 
     @Test
-    fun `receive parsed ActionApiResponse on the getArticleDetails request`() {
+    fun `receive parsed ArticleActionApiResponse on the getArticlesByPageIds request`() {
         mockWebServerRule.givenMockResponse(fileName = "pages.json")
 
 
-        val actionApiResponse = mediaWikiRetrofitService.getArticleDetails(pageId).testFirstValue()
+        val actionApiResponse = mediaWikiRetrofitService.getArticlesByPageIds(pageId).testFirstValue()
 
 
-        assertActionApiResponseForPages(actionApiResponse)
+        assertArticleActionApiResponseByPageIds(actionApiResponse)
     }
 
     @Test
-    fun `send getImageInfo request to the correct endpoint`() {
+    fun `send getImageInfoByTitles request to the correct endpoint`() {
         mockWebServerRule.givenMockResponse(fileName = "imageinfo.json")
 
 
-        mediaWikiRetrofitService.getImageInfo(titles).test()
+        mediaWikiRetrofitService.getImageInfoByTitles(titles).test()
 
 
         mockWebServerRule.assertGetRequestSentTo("/api.php?action=query&prop=imageinfo&iiprop=url&format=json&titles=File%3AHelsinki.vaakuna.svg%7CFile%3AKristusKyrkanHelsinki.jpg")
     }
 
     @Test
-    fun `receive parsed ActionApiResponse on the getImageInfo request`() {
+    fun `receive parsed ImageInfoActionApiResponse on the getImageInfoByTitles request`() {
         mockWebServerRule.givenMockResponse(fileName = "imageinfo.json")
 
 
-        val actionApiResponse = mediaWikiRetrofitService.getImageInfo(titles).testFirstValue()
+        val actionApiResponse = mediaWikiRetrofitService.getImageInfoByTitles(titles).testFirstValue()
 
 
-        assertImageInfoActionApiResponseForPages(actionApiResponse)
+        assertImageInfoActionApiResponseByTitles(actionApiResponse)
     }
 }

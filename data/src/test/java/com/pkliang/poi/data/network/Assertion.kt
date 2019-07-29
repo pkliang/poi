@@ -4,7 +4,7 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 
-fun assertActionApiResponseForGsSearch(actionApiResponse: ActionApiResponse) {
+fun assertArticleActionApiResponseByGscoord(actionApiResponse: ArticleActionApiResponse) {
     assertThat(actionApiResponse.query.geosearch, notNullValue())
     assertThat(
         actionApiResponse.query.geosearch?.first(), equalTo(
@@ -19,7 +19,7 @@ fun assertActionApiResponseForGsSearch(actionApiResponse: ActionApiResponse) {
     )
 }
 
-fun assertActionApiResponseForPages(actionApiResponse: ActionApiResponse) {
+fun assertArticleActionApiResponseByPageIds(actionApiResponse: ArticleActionApiResponse) {
     assertThat(actionApiResponse.query.pages, notNullValue())
     assertThat(actionApiResponse.query.pages?.keys?.toList()?.first(), equalTo(18806750L))
     assertThat(
@@ -44,7 +44,7 @@ fun assertActionApiResponseForPages(actionApiResponse: ActionApiResponse) {
     )
 }
 
-fun assertImageInfoActionApiResponseForPages(actionApiResponse: ImageInfoActionApiResponse) {
+fun assertImageInfoActionApiResponseByTitles(actionApiResponse: ImageInfoActionApiResponse) {
     assertThat(actionApiResponse.query.pages, notNullValue())
 
     assertThat(
