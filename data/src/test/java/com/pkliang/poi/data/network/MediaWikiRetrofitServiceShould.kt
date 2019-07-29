@@ -1,6 +1,6 @@
 package com.pkliang.poi.data.network
 
-import com.pkliang.poi.data.neaby.toGsCoord
+import com.pkliang.poi.data.repository.toGsCoord
 import com.pkliang.poi.domain.core.entity.Geolocation
 import com.pkliang.poi.testutils.MockWebServerRule
 import com.pkliang.poi.testutils.RetrofitMock

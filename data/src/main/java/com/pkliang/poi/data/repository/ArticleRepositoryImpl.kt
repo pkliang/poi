@@ -1,4 +1,4 @@
-package com.pkliang.poi.data.neaby
+package com.pkliang.poi.data.repository
 
 import com.pkliang.poi.data.network.MediaWikiRetrofitService
 import com.pkliang.poi.domain.core.entity.Geolocation
