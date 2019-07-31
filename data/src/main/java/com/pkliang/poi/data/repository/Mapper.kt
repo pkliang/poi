@@ -1,5 +1,6 @@
 package com.pkliang.poi.data.repository
 
+import android.location.Location
 import com.pkliang.poi.data.network.ArticleActionApiResponse
 import com.pkliang.poi.data.network.ArticleApiResponse
 import com.pkliang.poi.domain.core.entity.Geolocation
@@ -19,3 +20,5 @@ private fun ArticleApiResponse.toArticle(): Article =
         geolocation = Geolocation(lat, lon),
         distance = distance.toInt()
     )
+
+fun Location.toGeoLocation() = Geolocation(latitude, longitude)
