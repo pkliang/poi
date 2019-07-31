@@ -23,7 +23,7 @@ class GeolocationRepositoryImplShould {
     private val geolocationRepository = GeolocationRepositoryImpl(rxLocation, locationRequest)
 
     @Test
-    fun `receive geolocation when getCurrentGeolocation called` () {
+    fun `receive geolocation when getCurrentGeolocation called`() {
         every {
             rxLocation.location().updates(locationRequest)
         } returns Observable.just(Location("").apply {
