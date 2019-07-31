@@ -33,13 +33,18 @@ dependencies {
     implementation "androidx.core:core-ktx:$ktx"
 
     implementation "io.reactivex.rxjava2:rxjava:$rxjava"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
-    implementation "com.squareup.okhttp3:okhttp:$okhttp"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$serializationConverter"
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.0'
+    api "com.squareup.retrofit2:retrofit:$retrofit"
+    api "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    api "com.squareup.okhttp3:okhttp:$okhttp"
+    api "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    api "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$serializationConverter"
+    api 'com.patloew.rxlocation:rxlocation:1.0.5'
+    api 'com.google.android.gms:play-services-location:17.0.0'
 
     testImplementation project(":testutils")
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation "androidx.test:runner:$x_test_runner"
+    testImplementation "androidx.test.ext:truth:$x_test_runner"
+    testImplementation "org.robolectric:robolectric:$robolectric"
+    testImplementation "androidx.test.ext:junit:$x_ext_junit"
 }

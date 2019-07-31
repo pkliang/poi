@@ -14,6 +14,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "io.reactivex.rxjava2:rxjava:$rxjava"
 
+    api 'javax.inject:javax.inject:1'
+
     testImplementation project(":testutils")
 }
 
