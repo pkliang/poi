@@ -25,5 +25,4 @@ interface MediaWikiRetrofitService {
 
     @GET("$ACTION_ENDPOINT?$ACTION_QUERY&$PROP_IMAGE_INFO&$IIPRPO_URL&$FORMAT_JSON")
     fun getImageInfoByTitles(@Query("titles") titles: String): Observable<ImageInfoActionApiResponse>
-
 }

@@ -16,9 +16,7 @@ class GetNearbyArticlesUseCase @Inject constructor(
 ) : UseCase<List<Article>, Unit>() {
 
     override fun run(params: Unit): Observable<List<Article>> =
-        geolocationRepository.getCurrentGeolocation().switchMap { geolocation ->
-            articleRepository.getNearbyArticlesByGeoLocation(geolocation).onExceptionResumeNext {
-                it.onNext(emptyList())
-            }.runOnIo(scheduler)
+        geolocationRepository.getCurrentGeolocation().switchMap {
+            articleRepository.getNearbyArticlesByGeoLocation(it).runOnIo(scheduler)
         }
 }
