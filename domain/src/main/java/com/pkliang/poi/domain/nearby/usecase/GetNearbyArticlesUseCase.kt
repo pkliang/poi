@@ -7,8 +7,9 @@ import com.pkliang.poi.domain.nearby.entity.Article
 import com.pkliang.poi.domain.nearby.repository.ArticleRepository
 import com.pkliang.poi.domain.nearby.repository.GeolocationRepository
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class GetNearbyArticlesUseCase(
+class GetNearbyArticlesUseCase @Inject constructor(
     private val geolocationRepository: GeolocationRepository,
     private val articleRepository: ArticleRepository,
     private val scheduler: Scheduler
@@ -16,6 +17,6 @@ class GetNearbyArticlesUseCase(
 
     override fun run(params: Unit): Observable<List<Article>> =
         geolocationRepository.getCurrentGeolocation().switchMap {
-            articleRepository.getNearbyArticlesByGeoLocation(it)
-        }.runOnIo(scheduler)
+            articleRepository.getNearbyArticlesByGeoLocation(it).runOnIo(scheduler)
+        }
 }

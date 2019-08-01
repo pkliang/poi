@@ -5,8 +5,10 @@ import com.pkliang.poi.domain.core.entity.Geolocation
 import com.pkliang.poi.domain.nearby.entity.Article
 import com.pkliang.poi.domain.nearby.repository.ArticleRepository
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class ArticleRepositoryImpl(private val mediaWikiRetrofitService: MediaWikiRetrofitService) : ArticleRepository {
+class ArticleRepositoryImpl @Inject constructor(private val mediaWikiRetrofitService: MediaWikiRetrofitService) :
+    ArticleRepository {
     override fun getNearbyArticlesByGeoLocation(geolocation: Geolocation): Observable<List<Article>> =
         mediaWikiRetrofitService.getArticlesByGscoord(
             gscoord = geolocation.toGsCoord()
