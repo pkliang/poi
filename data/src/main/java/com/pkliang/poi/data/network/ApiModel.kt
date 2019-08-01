@@ -17,7 +17,7 @@ data class ArticleDetailApiResponse(
     @SerialName("pageid") val pageId: Long,
     @SerialName("title") val title: String,
     @SerialName("coordinates") val coordinates: List<CoordinatesApiResponse>,
-    @SerialName("description") val description: String,
+    @SerialName("description") val description: String? = null,
     @SerialName("touched") val touched: String,
     @SerialName("images") val images: List<ImageApiResponse>
 )
