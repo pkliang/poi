@@ -38,15 +38,19 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":domain")
     implementation project(":data")
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation "com.airbnb.android:mvrx:$mvrx"
     implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:$x_constraint"
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation "com.google.dagger:dagger:$dagger"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     kapt "com.google.dagger:dagger-compiler:$dagger"
 
     implementation "com.google.dagger:dagger-android:$dagger"

@@ -14,7 +14,7 @@ import com.pkliang.poi.domain.nearby.entity.ArticleDetails
 fun Geolocation.toGsCoord(): String = "$lat|$lon"
 
 fun ArticleActionApiResponse.toArticles(): List<Article>? =
-    query.geosearch?.map {
+    query?.geosearch?.map {
         it.toArticle()
     }
 
@@ -44,7 +44,7 @@ fun toArticleDetails(
     "https://en.wikipedia.org/wiki/" + details.title.replace(" ", "_"),
     details.description,
     details.coordinates.firstOrNull()?.toGeolocation(),
-    imageInfo.query.pages?.values?.toList()?.map {
+    imageInfo.query?.pages?.values?.toList()?.map {
         it.imageInfoApiResponse.first().url
     }
 )

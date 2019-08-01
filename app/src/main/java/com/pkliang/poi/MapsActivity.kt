@@ -4,30 +4,43 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.pkliang.poi.core.PermissionDeniedDialog
 import com.pkliang.poi.core.isPermissionGranted
 import com.pkliang.poi.core.requestPermission
 import com.pkliang.poi.core.view.StateData
 import com.pkliang.poi.domain.nearby.entity.Article
+import com.pkliang.poi.domain.nearby.entity.ArticleDetails
+import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_maps.*
+import kotlinx.android.synthetic.main.article_details.*
+import kotlinx.android.synthetic.main.item_image.view.*
 import javax.inject.Inject
 
 class MapsActivity : AppCompatActivity(),
     GoogleMap.OnMyLocationClickListener,
+    GoogleMap.OnMapClickListener,
+    GoogleMap.OnMarkerClickListener,
     OnMapReadyCallback {
 
     /**
@@ -36,6 +49,7 @@ class MapsActivity : AppCompatActivity(),
      */
     private var permissionDenied = false
     private lateinit var map: GoogleMap
+    private lateinit var behavior: BottomSheetBehavior<View>
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var mapViewModel: MapViewModel
@@ -49,6 +63,11 @@ class MapsActivity : AppCompatActivity(),
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        behavior = BottomSheetBehavior.from(bottom_sheet)
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
+        recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -82,11 +101,30 @@ class MapsActivity : AppCompatActivity(),
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMyLocationClickListener(this)
+        map.setOnMarkerClickListener(this)
+        map.setOnMapClickListener(this)
         enableMyLocation()
+    }
+
+    override fun onMapClick(latLng: LatLng) {
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     override fun onMyLocationClick(location: Location) {
         mapViewModel.getNearbyArticles()
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        map.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(marker.position.latitude, marker.position.longitude),
+                ZOOM_MARK
+            )
+        )
+
+        mapViewModel.getArticleDetails(marker.snippet.toLong())
+        marker.showInfoWindow()
+        return true
     }
 
     private fun markPOI(list: List<Article>) {
@@ -98,7 +136,7 @@ class MapsActivity : AppCompatActivity(),
                         it.geolocation.lat,
                         it.geolocation.lon
                     )
-                ).title(it.title)
+                ).title(it.title).snippet(it.id.toString())
             )
         }
         list.firstOrNull()?.apply {
@@ -124,26 +162,65 @@ class MapsActivity : AppCompatActivity(),
         } else {
             // Access to the location has been granted to the app.
             map.isMyLocationEnabled = true
-            mapViewModel.mapState.observe(this, Observer {
-                when (it) {
-                    is StateData.Success -> {
-                        progressBar.visibility = View.GONE
-                        markPOI(it.responseTo())
-                    }
-                    is StateData.Uninitialized -> {
-                        progressBar.visibility = View.GONE
-                        mapViewModel.getNearbyArticles()
-                    }
-                    is StateData.Loading -> progressBar.visibility = View.VISIBLE
-                    is StateData.Error -> {
-                        map.clear()
-                        progressBar.visibility = View.GONE
-                        Snackbar.make(container, it.error.localizedMessage, Snackbar.LENGTH_LONG).show()
-                    }
-                }
-            })
+            mapViewModel.mapState.observe(this, Observer { renderMap(it) })
+            mapViewModel.articleDetailsState.observe(this, Observer { renderBottomSheet(it) })
         }
     }
+
+    private fun renderBottomSheet(it: StateData) =
+        when (it) {
+            is StateData.Success -> {
+                detailsProgressBar.visibility = View.GONE
+                behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                val articleDetails: ArticleDetails = it.responseTo()
+                detailsTitle.text = articleDetails.title
+                detailsDescription.text = articleDetails.description
+
+                val imageList = articleDetails.images?.filter { url -> !url.contains("svg") }
+                if (imageList.isNullOrEmpty()) {
+                    recyclerView.visibility = View.GONE
+                } else {
+                    recyclerView.visibility = View.VISIBLE
+                    recyclerView.adapter = ImageAdapter(imageList)
+                }
+                detailsWikiLink.text = articleDetails.wikiLink
+            }
+            is StateData.Uninitialized -> {
+                detailsProgressBar.visibility = View.GONE
+            }
+            is StateData.Loading -> {
+                detailsProgressBar.visibility = View.VISIBLE
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                detailsTitle.text = ""
+            }
+            is StateData.Error -> {
+                detailsProgressBar.visibility = View.GONE
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
+                Snackbar.make(container, getString(R.string.error_message), Snackbar.LENGTH_LONG).show()
+            }
+        }
+
+    private fun renderMap(it: StateData) =
+        when (it) {
+            is StateData.Success -> {
+                progressBar.visibility = View.GONE
+                markPOI(it.responseTo())
+            }
+            is StateData.Uninitialized -> {
+                progressBar.visibility = View.GONE
+                mapViewModel.getNearbyArticles()
+            }
+            is StateData.Loading -> {
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
+                progressBar.visibility = View.VISIBLE
+            }
+            is StateData.Error -> {
+                map.clear()
+                progressBar.visibility = View.GONE
+                Snackbar.make(container, getString(R.string.error_message), Snackbar.LENGTH_LONG).show()
+            }
+        }
 
     /**
      * Displays a dialog with error message explaining that the location permission is missing.
@@ -159,5 +236,27 @@ class MapsActivity : AppCompatActivity(),
          */
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val ZOOM = 12.0f
+        private const val ZOOM_MARK = 13.0f
+    }
+
+    private inner class ViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup) :
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.item_image, parent, false)) {
+        internal val image: ImageView = itemView.image
+    }
+
+    private inner class ImageAdapter internal constructor(private val images: List<String>) :
+        RecyclerView.Adapter<ViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            return ViewHolder(LayoutInflater.from(parent.context), parent)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            Picasso.get().load(images[position]).placeholder(R.mipmap.ic_launcher).noFade().into(holder.image)
+        }
+
+        override fun getItemCount(): Int {
+            return images.size
+        }
     }
 }

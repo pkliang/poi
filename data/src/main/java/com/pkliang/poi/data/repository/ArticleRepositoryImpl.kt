@@ -12,11 +12,10 @@ class ArticleRepositoryImpl @Inject constructor(private val mediaWikiRetrofitSer
     ArticleRepository {
     override fun getArticleDetails(id: Long): Observable<ArticleDetails> {
         return mediaWikiRetrofitService.getArticlesByPageIds(id.toString())
-            .map { it.query.pages?.get(id) }
+            .map { it.query?.pages?.get(id) }
             .flatMap { details ->
-                mediaWikiRetrofitService.getImageInfoByTitles(details.images.toTitles()).map { imageInfo ->
-                    toArticleDetails(details, imageInfo)
-                }
+                mediaWikiRetrofitService.getImageInfoByTitles(details.images?.toTitles() ?: "")
+                    .map { imageInfo -> toArticleDetails(details, imageInfo) }
             }
     }
 
