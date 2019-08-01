@@ -4,6 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.pkliang.poi.core.view.StateData
 import com.pkliang.poi.domain.nearby.entity.Article
+import com.pkliang.poi.domain.nearby.entity.ArticleDetails
+import com.pkliang.poi.domain.nearby.usecase.GetArticleDetailsUseCase
 import com.pkliang.poi.domain.nearby.usecase.GetNearbyArticlesUseCase
 import io.mockk.every
 import io.mockk.mockk
@@ -24,6 +26,7 @@ class MapViewModelShould {
     val testRule: TestRule = InstantTaskExecutorRule()
 
     private val getNearbyArticlesUseCase = mockk<GetNearbyArticlesUseCase>()
+    private val getArticleDetailsUseCase = mockk<GetArticleDetailsUseCase>()
     private val observer = spyk<Observer<StateData>>()
 
     private lateinit var mapViewModel: MapViewModel
@@ -31,7 +34,7 @@ class MapViewModelShould {
     @Before
     fun setup() {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
-        mapViewModel = MapViewModel(getNearbyArticlesUseCase)
+        mapViewModel = MapViewModel(getNearbyArticlesUseCase, getArticleDetailsUseCase)
     }
 
     @Test
@@ -67,6 +70,44 @@ class MapViewModelShould {
 
         verifySequence {
             observer.onChanged(StateData.Uninitialized)
+            observer.onChanged(StateData.Loading)
+            observer.onChanged(StateData.Error(exception))
+        }
+    }
+
+    @Test
+    fun `emmit correct states when getArticleDetails called and article details returned`() {
+        val articleDetails = mockk<ArticleDetails>()
+        val id = 1L
+        every {
+            getArticleDetailsUseCase(id)
+        } returns Observable.just(articleDetails)
+        mapViewModel.articleDetailsState.observeForever(observer)
+
+
+        mapViewModel.getArticleDetails(id)
+
+
+        verifySequence {
+            observer.onChanged(StateData.Loading)
+            observer.onChanged(StateData.Success(articleDetails))
+        }
+    }
+
+    @Test
+    fun `emmit correct states when getArticleDetails called and an error returned`() {
+        val exception = mockk<Exception>()
+        val id = 1L
+        every {
+            getArticleDetailsUseCase(id)
+        } returns Observable.error(exception)
+        mapViewModel.articleDetailsState.observeForever(observer)
+
+
+        mapViewModel.getArticleDetails(id)
+
+
+        verifySequence {
             observer.onChanged(StateData.Loading)
             observer.onChanged(StateData.Error(exception))
         }

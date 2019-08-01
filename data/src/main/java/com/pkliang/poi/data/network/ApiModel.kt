@@ -19,7 +19,7 @@ data class ArticleDetailApiResponse(
     @SerialName("coordinates") val coordinates: List<CoordinatesApiResponse>,
     @SerialName("description") val description: String? = null,
     @SerialName("touched") val touched: String,
-    @SerialName("images") val images: List<ImageApiResponse>
+    @SerialName("images") val images: List<ImageApiResponse>? = null
 )
 
 @Serializable
@@ -43,12 +43,12 @@ data class QueryApiResponse<P>(
 
 @Serializable
 data class ArticleActionApiResponse(
-    @SerialName("query") val query: QueryApiResponse<Map<Long, ArticleDetailApiResponse>>
+    @SerialName("query") val query: QueryApiResponse<Map<Long, ArticleDetailApiResponse>>? = null
 )
 
 @Serializable
 data class ImageInfoActionApiResponse(
-    @SerialName("query") val query: QueryApiResponse<Map<String, ImageInfoPagesApiResponse>>
+    @SerialName("query") val query: QueryApiResponse<Map<String, ImageInfoPagesApiResponse>>? = null
 )
 
 @Serializable
