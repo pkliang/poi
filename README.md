@@ -53,6 +53,8 @@ There are three main modules,
 # Known issues
 * [RxLocation][11] is used for retrieving location, more tests needed on different phone models for these library.
 
+# TODO
+* Suggested rule info feature hasn't been implemented due to lack of related Google API key. Will be fixed soon
 
 [1]: https://kotlinlang.org/
 [2]: https://github.com/ReactiveX/RxAndroid
