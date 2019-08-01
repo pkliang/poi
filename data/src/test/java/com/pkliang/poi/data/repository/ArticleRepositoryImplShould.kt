@@ -103,6 +103,18 @@ class ArticleRepositoryImplShould {
     }
 
     @Test
+    fun `call getArticlesByPageIds and getImageInfoByTitles when getArticleDetails called`() {
+        articleRepository.getArticleDetails(1).subscribe()
+
+
+        verify {
+            mediaWikiRetrofitService.getArticlesByPageIds("1")
+            mediaWikiRetrofitService.getImageInfoByTitles("imageTitle")
+        }
+        confirmVerified(mediaWikiRetrofitService)
+    }
+
+    @Test
     fun `receive article details when getArticleDetails called`() {
         articleRepository.getArticleDetails(1).assertResult {
             it == ArticleDetails(
