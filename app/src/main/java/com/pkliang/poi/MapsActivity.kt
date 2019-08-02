@@ -115,13 +115,6 @@ class MapsActivity : AppCompatActivity(),
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        map.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                LatLng(marker.position.latitude, marker.position.longitude),
-                ZOOM_MARK
-            )
-        )
-
         mapViewModel.getArticleDetails(marker.snippet.toLong())
         marker.showInfoWindow()
         return true
@@ -236,7 +229,6 @@ class MapsActivity : AppCompatActivity(),
          */
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val ZOOM = 12.0f
-        private const val ZOOM_MARK = 13.0f
     }
 
     private inner class ViewHolder internal constructor(inflater: LayoutInflater, parent: ViewGroup) :
