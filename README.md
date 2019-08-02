@@ -38,7 +38,7 @@ There are three main modules,
 
 # Code Standard
 
-[Detekt][10] is used for static code analysis for Kotlin.
+[Detekt][11] is used for static code analysis for Kotlin.
 
 .idea/codeSytles folder is shared in the repository.
 
@@ -51,7 +51,7 @@ There are three main modules,
 * CircleCI is used as CI
 
 # Known issues
-* [RxLocation][11] is used for retrieving location, more tests needed on different phone models for these library.
+* [RxLocation][12] is used for retrieving location, more tests needed on different phone models for these library.
 
 # TODO
 * Suggested rule info feature hasn't been implemented due to lack of related Google API key. Will be fixed soon
@@ -66,5 +66,5 @@ There are three main modules,
 [8]: http://hamcrest.org/
 [9]: https://github.com/square/okhttp/tree/master/mockwebserver
 [10]: https://developer.android.com/topic/libraries/architecture/index.html
-[11]: https://github.com/patloew/RxLocation
-[12]: https://github.com/arturbosch/detekt
+[11]: https://github.com/arturbosch/detekt
+[12]: https://github.com/patloew/RxLocation
