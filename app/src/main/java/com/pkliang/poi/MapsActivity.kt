@@ -115,6 +115,7 @@ class MapsActivity : AppCompatActivity(),
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
+        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(marker.position.latitude, marker.position.longitude)))
         mapViewModel.getArticleDetails(marker.snippet.toLong())
         marker.showInfoWindow()
         return true
