@@ -245,7 +245,7 @@ class MapsActivity : AppCompatActivity(),
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            Picasso.get().load(images[position]).placeholder(R.mipmap.ic_launcher).noFade().into(holder.image)
+            Picasso.get().load(images[position]).fit().placeholder(R.mipmap.ic_launcher).noFade().into(holder.image)
         }
 
         override fun getItemCount(): Int {
