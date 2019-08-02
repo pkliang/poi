@@ -53,6 +53,7 @@ class MapsActivity : AppCompatActivity(),
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var mapViewModel: MapViewModel
+    private lateinit var adapter: ImageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +69,7 @@ class MapsActivity : AppCompatActivity(),
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        adapter = ImageAdapter(emptyList()).also { recyclerView.adapter = it }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -175,7 +177,7 @@ class MapsActivity : AppCompatActivity(),
                     recyclerView.visibility = View.GONE
                 } else {
                     recyclerView.visibility = View.VISIBLE
-                    recyclerView.adapter = ImageAdapter(imageList)
+                    adapter.setImages(imageList)
                 }
                 detailsWikiLink.text = articleDetails.wikiLink
             }
@@ -237,7 +239,7 @@ class MapsActivity : AppCompatActivity(),
         internal val image: ImageView = itemView.image
     }
 
-    private inner class ImageAdapter internal constructor(private val images: List<String>) :
+    private inner class ImageAdapter internal constructor(private var images: List<String>) :
         RecyclerView.Adapter<ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -250,6 +252,11 @@ class MapsActivity : AppCompatActivity(),
 
         override fun getItemCount(): Int {
             return images.size
+        }
+
+        fun setImages(imageList: List<String>) {
+            images = imageList
+            notifyDataSetChanged()
         }
     }
 }
