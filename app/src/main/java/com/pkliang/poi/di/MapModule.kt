@@ -42,9 +42,11 @@ class MapModule {
     fun provideLocationRequest(): LocationRequest = LocationRequest.create()
         .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
         .setInterval(LOCATION_REQUEST_INTERVAL)
+        .setSmallestDisplacement(SMALLEST_DISPLACEMENT)
 
     companion object {
-        private const val LOCATION_REQUEST_TIME_OUT = 10L
-        private const val LOCATION_REQUEST_INTERVAL = 5000L
+        private const val LOCATION_REQUEST_TIME_OUT = 60L
+        private const val LOCATION_REQUEST_INTERVAL = 10 * 1000L
+        private const val SMALLEST_DISPLACEMENT = 50f
     }
 }
